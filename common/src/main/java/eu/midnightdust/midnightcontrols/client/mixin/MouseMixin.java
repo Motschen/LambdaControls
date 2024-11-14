@@ -20,7 +20,7 @@ import net.minecraft.client.Mouse;
 import net.minecraft.client.util.GlfwUtil;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ThrowablePotionItem;
-import net.minecraft.util.UseAction;
+import net.minecraft.item.consume.UseAction;
 import net.minecraft.util.math.Smoother;
 import org.lwjgl.glfw.GLFW;
 import org.spongepowered.asm.mixin.Final;

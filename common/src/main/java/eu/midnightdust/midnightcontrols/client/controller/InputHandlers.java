@@ -60,10 +60,11 @@ public class InputHandlers {
             // When in-game
             if (client.currentScreen == null && client.player != null) {
                 if (!client.player.isSpectator()) {
+                    var inv = client.player.getInventory();
                     if (next)
-                        client.player.getInventory().scrollInHotbar(-1.0);
+                        inv.setSelectedSlot(inv.selectedSlot < 8 ? inv.selectedSlot + 1 : inv.selectedSlot - 8);
                     else
-                        client.player.getInventory().scrollInHotbar(1.0);
+                        inv.setSelectedSlot(inv.selectedSlot > 0 ? inv.selectedSlot - 1 : inv.selectedSlot + 8);
                 }
                 else {
                     if (client.inGameHud.getSpectatorHud().isOpen()) {
@@ -79,11 +80,9 @@ public class InputHandlers {
             } else if (client.currentScreen instanceof CreativeInventoryScreenAccessor inventory) {
                 inventory.midnightcontrols$setSelectedTab(ItemGroupUtil.cycleTab(next, client));
                 return true;
-            } else if (client.currentScreen instanceof InventoryScreen || client.currentScreen instanceof CraftingScreen || client.currentScreen instanceof AbstractFurnaceScreen<?>) {
-                RecipeBookWidget recipeBook;
-                if (client.currentScreen instanceof InventoryScreen inventoryScreen) recipeBook = inventoryScreen.getRecipeBookWidget();
-                else if (client.currentScreen instanceof CraftingScreen craftingScreen) recipeBook = craftingScreen.getRecipeBookWidget();
-                else recipeBook = ((AbstractFurnaceScreen<?>)client.currentScreen).getRecipeBookWidget();
+            } else if (client.currentScreen instanceof RecipeBookScreen<?> recipeBookScreen) {
+                RecipeBookWidget<?> recipeBook = ((RecipeBookScreenAccessor) recipeBookScreen).getRecipeBook();
+
                 var recipeBookAccessor = (RecipeBookWidgetAccessor) recipeBook;
                 var tabs = recipeBookAccessor.getTabButtons();
                 var currentTab = recipeBookAccessor.getCurrentTab();
@@ -98,7 +97,7 @@ public class InputHandlers {
                 currentTab.setToggled(false);
                 recipeBookAccessor.setCurrentTab(currentTab = tabs.get(nextTab));
                 currentTab.setToggled(true);
-                recipeBookAccessor.midnightcontrols$refreshResults(true);
+                recipeBookScreen.refreshRecipeBook();
                 return true;
             } else if (client.currentScreen instanceof AdvancementsScreenAccessor screen) {
                 var tabs = screen.getTabs().values().stream().distinct().toList();

@@ -48,7 +48,7 @@ public abstract class GameOptionsScreenMixin extends Screen {
         }
     }
 
-    @Inject(method = "initTabNavigation", at = @At("TAIL"))
+    @Inject(method = "refreshWidgetPositions", at = @At("TAIL"))
     public void midnightcontrols$onResize(CallbackInfo ci) {
         this.midnightcontrols$setButtonPos();
     }

@@ -26,7 +26,7 @@ dependencies {
     modImplementation include ("maven.modrinth:midnightlib:${rootProject.midnightlib_version}-fabric")
     modImplementation include ("maven.modrinth:obsidianui:${rootProject.obsidianui_version}-fabric") {}
     include 'org.aperlambda:lambdajcommon:1.8.1'
-    modImplementation "maven.modrinth:emi:${project.emi_version}"
+    modCompileOnly "maven.modrinth:emi:${project.emi_version}"
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }

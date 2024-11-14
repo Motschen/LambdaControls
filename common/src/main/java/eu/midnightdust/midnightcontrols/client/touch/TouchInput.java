@@ -85,12 +85,12 @@ public class TouchInput {
                     int previousStackCount = stackInHand.getCount();
                     var interaction = client.interactionManager.interactBlock(client.player, client.player.getActiveHand(), blockHit);
                     if (interaction.isAccepted()) {
-                        if (interaction.shouldSwingHand()) {
+                        //if (interaction.shouldSwingHand()) {
                             client.player.swingHand(client.player.preferredHand);
                             if (!stackInHand.isEmpty() && (stackInHand.getCount() != previousStackCount || client.interactionManager.hasCreativeInventory())) {
                                 client.gameRenderer.firstPersonRenderer.resetEquipProgress(client.player.preferredHand);
                             }
-                        }
+                        //}
                         return true;
                     }
                 }

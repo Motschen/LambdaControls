@@ -48,10 +48,11 @@ public final class MovementHandler implements PressAction {
     public void applyMovement(@NotNull ClientPlayerEntity player) {
         if (!this.shouldOverrideMovement)
             return;
-        player.input.pressingForward = this.pressingForward;
-        player.input.pressingBack = this.pressingBack;
-        player.input.pressingLeft = this.pressingLeft;
-        player.input.pressingRight = this.pressingRight;
+        // TODO
+//        player.input.playerInput.pressingForward = this.pressingForward;
+//        player.input.pressingBack = this.pressingBack;
+//        player.input.pressingLeft = this.pressingLeft;
+//        player.input.pressingRight = this.pressingRight;
 
         polarUtil.calculate(this.movementSideways, this.movementForward, this.slowdownFactor);
         player.input.movementForward = polarUtil.polarY;
@@ -81,7 +82,7 @@ public final class MovementHandler implements PressAction {
         }
 
         this.slowdownFactor = client.player.shouldSlowDown() ? (MathHelper.clamp(
-            0.3F + (float) client.player.getAttributeValue(EntityAttributes.PLAYER_SNEAKING_SPEED),
+            0.3F + (float) client.player.getAttributeValue(EntityAttributes.SNEAKING_SPEED),
             0.0F,
             1.0F
         )) : 1.f;

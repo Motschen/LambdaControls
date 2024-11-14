@@ -9,10 +9,8 @@
 
 package eu.midnightdust.midnightcontrols.client.mixin;
 
-import com.llamalad7.mixinextras.sugar.Local;
 import eu.midnightdust.lib.util.MidnightColorUtil;
 import eu.midnightdust.midnightcontrols.ControlsMode;
-import eu.midnightdust.midnightcontrols.client.MidnightControlsClient;
 import eu.midnightdust.midnightcontrols.client.MidnightControlsConfig;
 import eu.midnightdust.midnightcontrols.client.touch.TouchInput;
 import eu.midnightdust.midnightcontrols.client.enums.TouchMode;
@@ -28,8 +26,7 @@ import net.minecraft.item.ItemUsageContext;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.HitResult;
-import net.minecraft.util.shape.VoxelShape;
-import org.joml.Matrix4f;
+import net.minecraft.util.math.ColorHelper;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -61,12 +58,8 @@ public abstract class WorldRendererMixin {
     @Final
     private BufferBuilderStorage bufferBuilders;
 
-    @Shadow
-    private static void drawCuboidShapeOutline(MatrixStack matrices, VertexConsumer vertexConsumer, VoxelShape shape, double offsetX, double offsetY, double offsetZ, float red, float green, float blue, float alpha) {
-    }
-
-    @Redirect(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/hit/HitResult;getType()Lnet/minecraft/util/hit/HitResult$Type;"))
-    private HitResult.Type dontRenderOutline(HitResult instance) {
+    @Redirect(method = "renderTargetBlockOutline", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/hit/BlockHitResult;getType()Lnet/minecraft/util/hit/HitResult$Type;"))
+    private HitResult.Type dontRenderOutline(BlockHitResult instance) {
         if (MidnightControlsConfig.controlsMode == ControlsMode.TOUCHSCREEN && MidnightControlsConfig.touchMode == TouchMode.FINGER_POS) {
             return HitResult.Type.MISS;
         }
@@ -74,15 +67,10 @@ public abstract class WorldRendererMixin {
     }
 
     @Inject(
-            method = "render",
-            at = @At(
-                    value = "FIELD",
-                    target = "Lnet/minecraft/client/MinecraftClient;crosshairTarget:Lnet/minecraft/util/hit/HitResult;",
-                    ordinal = 1,
-                    shift = At.Shift.AFTER
-            )
+            method = "renderTargetBlockOutline",
+            at = @At("TAIL")
     )
-    private void onOutlineRender(RenderTickCounter tickCounter, boolean renderBlockOutline, Camera camera, GameRenderer gameRenderer, LightmapTextureManager lightmapTextureManager, Matrix4f matrix4f, Matrix4f matrix4f2, CallbackInfo ci, @Local MatrixStack matrices) {
+    private void onOutlineRender(Camera camera, VertexConsumerProvider.Immediate vertexConsumers, MatrixStack matrices, boolean translucent, CallbackInfo ci) {
         if (((MidnightControlsConfig.controlsMode == ControlsMode.CONTROLLER && MidnightControlsConfig.touchInControllerMode) || MidnightControlsConfig.controlsMode == ControlsMode.TOUCHSCREEN)
                 && MidnightControlsConfig.touchMode == TouchMode.FINGER_POS) {
             this.midnightcontrols$renderFingerOutline(matrices, camera);
@@ -102,8 +90,8 @@ public abstract class WorldRendererMixin {
             var pos = camera.getPos();
             matrices.push();
             var vertexConsumer = this.bufferBuilders.getEntityVertexConsumers().getBuffer(RenderLayer.getLines());
-            drawCuboidShapeOutline(matrices, vertexConsumer, outlineShape, blockPos.getX() - pos.getX(), blockPos.getY() - pos.getY(), blockPos.getZ() - pos.getZ(),
-                    rgb.getRed() / 255.f, rgb.getGreen() / 255.f, rgb.getBlue() / 255.f, MidnightControlsConfig.touchOutlineColorAlpha / 255.f);
+            VertexRendering.drawOutline(matrices, vertexConsumer, outlineShape, blockPos.getX() - pos.getX(), blockPos.getY() - pos.getY(), blockPos.getZ() - pos.getZ(),
+                    ColorHelper.withAlpha(MidnightControlsConfig.touchOutlineColorAlpha, rgb.getRGB()));
             matrices.pop();
         }
     }
@@ -134,9 +122,8 @@ public abstract class WorldRendererMixin {
             if (MidnightControlsConfig.reacharoundOutlineColorHex.isEmpty()) rgb = RainbowColor.radialRainbow(1,1);
             matrices.push();
             var vertexConsumer = this.bufferBuilders.getEntityVertexConsumers().getBuffer(RenderLayer.getLines());
-            drawCuboidShapeOutline(matrices, vertexConsumer, outlineShape,
-                    (double) blockPos.getX() - pos.getX(), (double) blockPos.getY() - pos.getY(), (double) blockPos.getZ() - pos.getZ(),
-                    rgb.getRed() / 255.f, rgb.getGreen() / 255.f, rgb.getBlue() / 255.f, MidnightControlsConfig.reacharoundOutlineColorAlpha / 255.f);
+            VertexRendering.drawOutline(matrices, vertexConsumer, outlineShape, blockPos.getX() - pos.getX(), blockPos.getY() - pos.getY(), blockPos.getZ() - pos.getZ(),
+                    ColorHelper.withAlpha(MidnightControlsConfig.touchOutlineColorAlpha, rgb.getRGB()));
             matrices.pop();
         }
     }

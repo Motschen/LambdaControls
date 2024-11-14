@@ -514,7 +514,7 @@ public class MidnightControlsSettingsScreen extends SpruceScreen {
             BufferBuilder bufferBuilder = Tessellator.getInstance().begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);
             RenderSystem.enableBlend();
             RenderSystem.defaultBlendFunc();
-            RenderSystem.setShader(GameRenderer::getPositionColorProgram);
+            //RenderSystem.setShader(GameRenderer::getPositionColorProgram);
             bufferBuilder.vertex(matrix, (float)x1, (float)y2, 0.0F).color(r, g, b, t);
             bufferBuilder.vertex(matrix, (float)x2, (float)y2, 0.0F).color(r, g, b, t);
             bufferBuilder.vertex(matrix, (float)x2, (float)y1, 0.0F).color(r, g, b, t);

@@ -88,11 +88,11 @@ public abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity
             if (MidnightControlsConfig.verticalFlyDrifting || !MidnightControls.isExtrasLoaded)
                 return;
             int moving = 0;
-            if (this.input.sneaking) {
+            if (this.input.playerInput.sneak()) {
                 --moving;
             }
 
-            if (this.input.jumping) {
+            if (this.input.playerInput.jump()) {
                 ++moving;
             }
 

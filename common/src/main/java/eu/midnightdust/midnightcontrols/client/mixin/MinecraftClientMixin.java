@@ -127,12 +127,12 @@ public abstract class MinecraftClientMixin {
                     int previousStackCount = stackInHand.getCount();
                     var result = this.interactionManager.interactBlock(this.player, hand, hitResult);
                     if (result.isAccepted()) {
-                        if (result.shouldSwingHand()) {
+                        //if (result.shouldSwingHand()) {
                             this.player.swingHand(hand);
                             if (!stackInHand.isEmpty() && (stackInHand.getCount() != previousStackCount || this.interactionManager.hasCreativeInventory())) {
                                 this.gameRenderer.firstPersonRenderer.resetEquipProgress(hand);
                             }
-                        }
+                        //}
 
                         ci.cancel();
                     }

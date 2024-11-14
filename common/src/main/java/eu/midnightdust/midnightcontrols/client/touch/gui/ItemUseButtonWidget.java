@@ -1,12 +1,12 @@
 package eu.midnightdust.midnightcontrols.client.touch.gui;
 
+import net.minecraft.item.consume.UseAction;
 import org.thinkingstudio.obsidianui.Position;
 import org.thinkingstudio.obsidianui.widget.SpruceButtonWidget;
 import eu.midnightdust.midnightcontrols.MidnightControlsConstants;
 import eu.midnightdust.midnightcontrols.client.MidnightControlsConfig;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.text.Text;
-import net.minecraft.util.UseAction;
 
 public class ItemUseButtonWidget extends SpruceButtonWidget {
 

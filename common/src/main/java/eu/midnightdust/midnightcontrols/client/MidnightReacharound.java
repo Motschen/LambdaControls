@@ -77,7 +77,7 @@ public class MidnightReacharound {
     }
 
     public static float getPlayerRange(@NotNull MinecraftClient client) {
-        return client.player != null ? Double.valueOf(client.player.getAttributeValue(EntityAttributes.PLAYER_BLOCK_INTERACTION_RANGE)).floatValue() : 0.f;
+        return client.player != null ? Double.valueOf(client.player.getAttributeValue(EntityAttributes.BLOCK_INTERACTION_RANGE)).floatValue() : 0.f;
     }
 
     /**

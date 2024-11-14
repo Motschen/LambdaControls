@@ -27,7 +27,4 @@ public interface RecipeBookWidgetAccessor {
 
     @Accessor("currentTab")
     void setCurrentTab(RecipeGroupButtonWidget currentTab);
-
-    @Invoker("refreshResults")
-    void midnightcontrols$refreshResults(boolean resetCurrentPage);
 }
