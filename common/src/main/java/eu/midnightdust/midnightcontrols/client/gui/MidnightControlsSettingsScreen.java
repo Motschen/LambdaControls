@@ -14,6 +14,7 @@ import eu.midnightdust.midnightcontrols.MidnightControlsConstants;
 import eu.midnightdust.midnightcontrols.client.MidnightControlsClient;
 import eu.midnightdust.midnightcontrols.client.util.platform.NetworkUtil;
 import org.thinkingstudio.obsidianui.background.Background;
+import org.thinkingstudio.obsidianui.mixin.DrawContextAccessor;
 import org.thinkingstudio.obsidianui.widget.SpruceWidget;
 import eu.midnightdust.lib.util.MidnightColorUtil;
 import eu.midnightdust.midnightcontrols.MidnightControls;
@@ -501,27 +502,24 @@ public class MidnightControlsSettingsScreen extends SpruceScreen {
         }
         @Override
         public void render(DrawContext context, SpruceWidget widget, int vOffset, int mouseX, int mouseY, float delta) {
-            fill(context.getMatrices(), widget.getX(), widget.getY(), widget.getX() + widget.getWidth(), widget.getY() + widget.getHeight(), MidnightColorUtil.hex2Rgb("#000000"));
+            fill(context, widget.getX(), widget.getY(), widget.getX() + widget.getWidth(), widget.getY() + widget.getHeight(), Color.black);
         }
-        private static void fill(MatrixStack matrixStack, int x2, int y2, int x1, int y1, Color color) {
-            matrixStack.push();
+        private static void fill(DrawContext context, int x2, int y2, int x1, int y1, Color color) {
+            RenderLayer renderLayer = RenderLayer.getGui();
+            VertexConsumer vertexConsumer = ((DrawContextAccessor)context).getVertexConsumers().getBuffer(renderLayer);
 
-            Matrix4f matrix = matrixStack.peek().getPositionMatrix();
             float r = (float)(color.getRed()) / 255.0F;
             float g = (float)(color.getGreen()) / 255.0F;
             float b = (float)(color.getBlue()) / 255.0F;
             float t = (float)(transparency) / 255.0F;
-            BufferBuilder bufferBuilder = Tessellator.getInstance().begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);
             RenderSystem.enableBlend();
             RenderSystem.defaultBlendFunc();
-            //RenderSystem.setShader(GameRenderer::getPositionColorProgram);
-            bufferBuilder.vertex(matrix, (float)x1, (float)y2, 0.0F).color(r, g, b, t);
-            bufferBuilder.vertex(matrix, (float)x2, (float)y2, 0.0F).color(r, g, b, t);
-            bufferBuilder.vertex(matrix, (float)x2, (float)y1, 0.0F).color(r, g, b, t);
-            bufferBuilder.vertex(matrix, (float)x1, (float)y1, 0.0F).color(r, g, b, t);
-            BufferRenderer.drawWithGlobalProgram(bufferBuilder.end());
+            vertexConsumer.vertex((float)x1, (float)y2, 0.0F).color(r, g, b, t);
+            vertexConsumer.vertex((float)x2, (float)y2, 0.0F).color(r, g, b, t);
+            vertexConsumer.vertex((float)x2, (float)y1, 0.0F).color(r, g, b, t);
+            vertexConsumer.vertex((float)x1, (float)y1, 0.0F).color(r, g, b, t);
             RenderSystem.disableBlend();
-            matrixStack.pop();
+            context.draw();
         }
     }
 }
