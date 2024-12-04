@@ -54,7 +54,7 @@
     "fabric": ">=0.71.0",
     "minecraft": ">=1.20.5",
     "obsidianui": ">=0.2.5",
-    "java": ">=17"
+    "java": ">=21"
   },
   "suggests": {
     "kontrolo": "*"

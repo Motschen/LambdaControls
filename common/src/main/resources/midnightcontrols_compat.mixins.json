@@ -2,7 +2,7 @@
   "required": true,
   "package": "eu.midnightdust.midnightcontrols.client.compat.mixin",
   "plugin": "eu.midnightdust.midnightcontrols.client.compat.MidnightControlsMixinPlugin",
-  "compatibilityLevel": "JAVA_16",
+  "compatibilityLevel": "JAVA_21",
   "client": [
     "sodium.SodiumOptionsGUIAccessor"
   ],

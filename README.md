@@ -8,7 +8,7 @@
 [![Version](https://img.shields.io/github/v/tag/TeamMidnightDust/MidnightControls?label=version&style=round)](https://github.com/TeamMidnightDust/MidnightControls/releases)
 ![Environment: Client](https://img.shields.io/badge/environment-client-1976d2?style=round)
 [![Mod loader: Quilt/Fabric]][Quilt]
-[![Java 17](https://img.shields.io/badge/language-Java%2017-9B599A.svg?style=round)](https://www.oracle.com/java/technologies/downloads/#java17)
+[![Java 21](https://img.shields.io/badge/language-Java%2021-9B599A.svg?style=round)](https://www.oracle.com/java/technologies/downloads/#java21)
 [![GitHub license](https://img.shields.io/github/license/TeamMidnightDust/MidnightControls?style=round)](LICENSE)
 
 A Fabric Minecraft mod which adds better controls, reach-around and controller support.  
