@@ -77,7 +77,7 @@ public abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity
         }
     }
 
-    @Inject(method = "tickMovement", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/input/Input;tick(ZF)V", shift = At.Shift.AFTER))
+    @Inject(method = "tickMovement", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/input/Input;tick()V", shift = At.Shift.AFTER))
     public void onInputUpdate(CallbackInfo ci) {
         MovementHandler.HANDLER.applyMovement((ClientPlayerEntity) (Object) this);
     }
