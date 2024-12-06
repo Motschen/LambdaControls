@@ -68,7 +68,7 @@ public abstract class WorldRendererMixin {
 
     @Inject(
             method = "renderTargetBlockOutline",
-            at = @At("TAIL")
+            at = @At("HEAD")
     )
     private void onOutlineRender(Camera camera, VertexConsumerProvider.Immediate vertexConsumers, MatrixStack matrices, boolean translucent, CallbackInfo ci) {
         if (((MidnightControlsConfig.controlsMode == ControlsMode.CONTROLLER && MidnightControlsConfig.touchInControllerMode) || MidnightControlsConfig.controlsMode == ControlsMode.TOUCHSCREEN)

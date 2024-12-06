@@ -19,7 +19,12 @@ public class NetworkUtilImpl {
             handler.send(packet);
     }
     public static void sendPayloadC2S(CustomPayload payload) {
-        if (handler != null && client.world != null)
-            handler.send(new CustomPayloadC2SPacket(payload));
+        if (handler != null && client.world != null) {
+            try {
+                handler.send(new CustomPayloadC2SPacket(payload));
+            } catch (Exception e) {
+                e.fillInStackTrace();
+            }
+        }
     }
 }
