@@ -15,6 +15,7 @@ import eu.midnightdust.midnightcontrols.client.util.MathUtil;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.attribute.EntityAttributes;
+import net.minecraft.util.PlayerInput;
 import net.minecraft.util.math.MathHelper;
 import org.jetbrains.annotations.NotNull;
 
@@ -48,11 +49,8 @@ public final class MovementHandler implements PressAction {
     public void applyMovement(@NotNull ClientPlayerEntity player) {
         if (!this.shouldOverrideMovement)
             return;
-        // TODO
-//        player.input.playerInput.pressingForward = this.pressingForward;
-//        player.input.pressingBack = this.pressingBack;
-//        player.input.pressingLeft = this.pressingLeft;
-//        player.input.pressingRight = this.pressingRight;
+        player.input.playerInput = new PlayerInput(this.pressingForward, this.pressingBack, this.pressingLeft, this.pressingRight,
+                player.input.playerInput.jump(), player.input.playerInput.sneak(), player.input.playerInput.sprint());
 
         polarUtil.calculate(this.movementSideways, this.movementForward, this.slowdownFactor);
         player.input.movementForward = polarUtil.polarY;
