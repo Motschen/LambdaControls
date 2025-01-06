@@ -22,4 +22,6 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: MidnightControls-Artifacts
-          path: /build/libs/
+          path: |
+            fabric/build/libs/
+            neoforge/build/libs/
